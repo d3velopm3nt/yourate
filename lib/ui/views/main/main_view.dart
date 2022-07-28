@@ -1,14 +1,13 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-import 'package:yourate/app/app.router.dart';
-import 'package:yourate/ui/shared/address_selection/address_selection_view.dart';
-import 'package:yourate/ui/views/restaurants/restaurants_view.dart';
-import 'package:yourate/ui/views/reviews/review/review_view.dart';
+import 'package:yourate/app/app.nav.dart';
 import '../home/home_view.dart';
 import 'main_viewmodel.dart';
 
 class MainView extends StatelessWidget {
+  static final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey =
+      GlobalKey();
   MainView({Key? key}) : super(key: key);
   late BuildContext _context;
   List icons = [
@@ -27,8 +26,10 @@ class MainView extends StatelessWidget {
     return ViewModelBuilder<MainViewModel>.reactive(
       builder: (viewContext, model, child) => Scaffold(
           body: Navigator(
-            key: StackedService.navigatorKey,
-            onGenerateRoute: StackedRouter().onGenerateRoute,
+            key: Navigation.mainListNav,
+            initialRoute: '/',
+            onGenerateRoute: (RouteSettings settings) =>
+                Navigation.navigationRoutes(settings.name),
           ),
           bottomNavigationBar: bottomAppBar(context, model),
           floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
@@ -42,7 +43,7 @@ class MainView extends StatelessWidget {
                 child: const Icon(
                   Icons.add,
                 ),
-                onPressed: () => model.setIndex(2),
+                onPressed: () => getViewForIndex(2, model),
               ))),
       viewModelBuilder: () => MainViewModel(),
     );
@@ -74,7 +75,7 @@ class MainView extends StatelessWidget {
           icons[index],
           size: 24.0,
         ),
-        onPressed: () => model.setIndex(index),
+        onPressed: () => getViewForIndex(index, model),
         color: model.currentIndex == index
             ? Theme.of(_context).secondaryHeaderColor
             : Theme.of(_context).textTheme.caption!.color,
@@ -97,14 +98,33 @@ class MainView extends StatelessWidget {
     );
   }
 
-  getViewForIndex(int currentIndex) {
+  curvedNavigationBar() {
+    return CurvedNavigationBar(
+        key: _bottomNavigationKey,
+        items: <Widget>[
+          Icon(icons[0], size: 30),
+          Icon(icons[1], size: 30),
+          Icon(icons[2], size: 30),
+          Icon(icons[3], size: 30),
+        ],
+        onTap: (index) => getViewForIndex(index));
+  }
+
+  getViewForIndex(int currentIndex, [MainViewModel? model]) {
+    model?.setIndex(currentIndex);
     switch (currentIndex) {
       case 0:
-        return const HomeView();
+        return Navigation.mainListNav.currentState!
+            .pushReplacementNamed(Routes.home);
       case 1:
-        return const Restaurants();
+        return Navigation.mainListNav.currentState!
+            .pushReplacementNamed(Routes.restaurants);
       case 2:
-        return AddressSelectionView();
+        return Navigation.mainListNav.currentState!
+            .pushReplacementNamed(Routes.addReview);
+      case 3:
+        return Navigation.mainListNav.currentState!
+            .pushReplacementNamed(Routes.addressSelection);
       default:
         return const HomeView();
     }

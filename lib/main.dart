@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stacked_services/stacked_services.dart';
 import 'package:yourate/ui/views/main/main_view.dart';
 import '/app/locator.dart';
 
@@ -15,8 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'You Rate',
-    home: MainView(),
-    navigatorKey: StackedService.navigatorKey,
-    ) ;
+      home: MainView(),
+    );
   }
 }

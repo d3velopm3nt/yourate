@@ -37,7 +37,7 @@ class ReviewView extends StatelessWidget {
                     title: const Text('Step 1 - Where did you eat?'),
                     content: Container(
                       alignment: Alignment.centerLeft,
-                      child: AddressSelectionView(),
+                      child: const Text('Content for Step 1'),
                     ),
                   ),
                   const Step(

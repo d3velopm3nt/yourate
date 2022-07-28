@@ -47,6 +47,7 @@ dependencies:
   # inversion of control
   get_it: ^7.2.0
   injectable:
+  curved_navigation_bar: ^1.0.3
   # places_service: ^0.1.2
 
 

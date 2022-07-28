@@ -1,6 +1,7 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:yourate/app/app.nav.dart';
 
 import 'address_selection_view.form.dart';
 import 'address_selection_viewmodel.dart';
@@ -19,6 +20,14 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
     return ViewModelBuilder<AddressSelectionViewModel>.reactive(
       onModelReady: (model) => listenToFormUpdated(model),
       builder: (context, model, child) => Scaffold(
+        appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: const Text('Search Place'),
+           leading: IconButton(icon:const Icon(Icons.arrow_back),
+          //onPressed:() => Navigator.pop(context, false),
+          onPressed:() => Navigation.previousPage(),
+        )
+          ),
         body: ListView(
           children: [
             TextFormField(
