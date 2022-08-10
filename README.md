@@ -1,6 +1,9 @@
 # yourate
 
-A new Flutter project.
+IN DEVELOPMENT
+
+A new Flutter project to search for a restaurant in your area and rate the experience you had with them.
+
 
 ## Getting Started
 
